@@ -10,10 +10,15 @@ function decodeRights(data) { // принимаем объект
 
         if (keys.length) { // если объект НЕпустой
             keys.forEach(key => { // для каждого ключа рекурсивно вызываем функцию
-                createPath(
-                    currentObj[key], // передаем ключ
-                    path ? `${path}.${key}` : key // и прибавляем ключ в значение пути
-                );
+                if (key === "_") {
+                    result.push(path)
+                } else {
+                    createPath(
+                        currentObj[key], // передаем ключ
+                        path ? `${path}.${key}` : key // и прибавляем ключ в значение пути
+                    );
+                }
+                
             })
         } else {
             result.push(path)
