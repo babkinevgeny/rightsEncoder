@@ -1,3 +1,4 @@
 node_modules
-*.json
+*_rights.json
 rights.json
+package-lock.json
