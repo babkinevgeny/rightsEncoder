@@ -6,19 +6,17 @@ function decodeRights(data) { // принимаем объект
     const result = [];
 
     const createPath = (currentObj, path) => { // функция принимает объект и текущее значение пути
+        let keys = Object.keys(currentObj); // собираем ключи объекта
 
-        for (let prop in currentObj) {  // проверяем каждое поле объекта
-            let keys = Object.keys(currentObj[prop]);
-
-            if (keys.length) { // если поле не является пустым...
+        if (keys.length) { // если объект НЕпустой
+            keys.forEach(key => { // для каждого ключа рекурсивно вызываем функцию
                 createPath(
-                    currentObj[prop], // ...рекурсивно запускаем функцию для вложенного НЕпустого объекта
-                    path ? `${path}.${prop}` : prop // прибавляем название свойства к пути
-                ); 
-            } else { // если поле - пустой объект...
-                path = `${path}.${prop}`; // ...заканчиваем вызов и пушим путь в массив
-                result.push(path);
-            }
+                    currentObj[key], // передаем ключ
+                    path ? `${path}.${key}` : key // и прибавляем ключ в значение пути
+                );
+            })
+        } else {
+            result.push(path)
         }
     }
 
