@@ -47,4 +47,4 @@ const oldSize = fs.statSync('./rights.json').size;
 const newSize = fs.statSync('./encoded_rights.json').size;
 const difference = oldSize - newSize;
 
-console.log(`Old size: ${oldSize / 1000} KB, New size: ${newSize / 1000} KB. We've saved ${difference / 1000} KB or ${Math.round(difference/ (oldSize / 100))} %`);
+console.log(`Old size: ${oldSize / 1000} KB, New size: ${newSize / 1000} KB. We've saved ${difference / 1000} KB ${Math.round(difference/ (oldSize / 100))} %`);
