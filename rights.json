@@ -1,9 +1,1 @@
-{
-    "view": [
-        "ORDER.OrderForm.buttons", 
-        "ORDER.OrderForm.buttons.chooseDocsScheme",
-        "ORDER.OrderForm.head",
-        "ORDER.OrderForm.head.ID_COMPANY_CLIENT",
-        "ORDER.OrderForm.head.ID_COMPANY_PARTNER"
-    ]
-}
+{"view":["ORDER.OrderForm.buttons","ORDER.OrderForm.buttons.chooseDocsScheme","ORDER.OrderForm.head","ORDER.OrderForm.head.ID_COMPANY_CLIENT","ORDER.OrderForm.head.ID_COMPANY_PARTNER"]}

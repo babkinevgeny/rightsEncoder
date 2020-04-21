@@ -1,1 +1,3 @@
-*rights.json
+node_modules
+*.json
+rights.json
