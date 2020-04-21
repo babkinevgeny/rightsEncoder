@@ -12,6 +12,14 @@ const encodeRights = (paths) => {
             currentObj[key] = {};
         }
 
+        if (currentObj.hasOwnProperty(key) && keys.length === 0) { // если такое поле есть И это последнее поле из массива
+            if (currentObj.hasOwnProperty("_")) { // если есть маркер останова...
+                currentObj[key] = {};             // то добавляем пустой объект
+            } else {
+                currentObj[key] = {_: 1};         // если маркера нет, то добавляем объект с маркером останова
+            } 
+        }
+
         return keys.length ? createObj(currentObj[key], keys) : null;
     }
 
