@@ -9,15 +9,19 @@ const encodeRights = (paths) => {
         const key = keys.shift();
 
         if (!currentObj.hasOwnProperty(key)) { // если такого ключа нет, то добавляем пустой объект.
-            currentObj[key] = {};
+            currentObj[key] = {}
         }
 
-        if (currentObj.hasOwnProperty(key) && keys.length === 0) { // если такое поле есть И это последнее поле из массива
-            if (currentObj.hasOwnProperty("_")) { // если есть маркер останова...
-                currentObj[key] = {};             // то добавляем пустой объект
+        if (keys.length === 0) { // если это последнее поле из массива
+            const hasKeys = Object.keys(currentObj[key]).length ? true : false; // проверяем пустой ли объект
+            if (hasKeys) {
+                currentObj[key] = {
+                    _: 1,
+                    ...currentObj[key]
+                };
             } else {
-                currentObj[key] = {_: 1};         // если маркера нет, то добавляем объект с маркером останова
-            } 
+                currentObj[key] = {_: 1};
+            }
         }
 
         return keys.length ? createObj(currentObj[key], keys) : null;
@@ -44,22 +48,3 @@ const newSize = fs.statSync('./encoded_rights.json').size;
 const difference = oldSize - newSize;
 
 console.log(`Old size: ${oldSize / 1000} KB, New size: ${newSize / 1000} KB. We've saved ${difference / 1000} KB or ${Math.round(difference/ (oldSize / 100))} %`);
-
-
-// function encodeRights(paths) {
-//     return paths.reduce((obj, path) => {
-//         path.split('.').reduce((obj, key, index, parts) => {
-//             if (index === parts.length - 1) { // последний элемент массива
-//                 let parentKey = parts[index - 1];
-//                 obj[key] = {
-//                     '.': true
-//                 }
-//             } else {
-//                 obj[key] = {}
-//             }
-//             return obj[key]
-
-//         }, obj);
-//         return obj;
-//     }, {});
-// };
