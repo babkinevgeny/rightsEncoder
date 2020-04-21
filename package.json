@@ -2,7 +2,7 @@
   "name": "rightsencoder",
   "version": "1.0.0",
   "description": "Put your date into rights.json and execute file: node index.js",
-  "main": "index.js",
+  "main": "encode.js",
   "dependencies": {
     "lodash.isequal": "^4.5.0"
   },
