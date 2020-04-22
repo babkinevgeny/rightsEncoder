@@ -25,33 +25,41 @@ const encodeRights = (paths) => {
     const createObj = (currentObj, keys, needsCutting = false) => {
         const key = keys.shift();
 
-        if (!currentObj.hasOwnProperty(key)) { // если такого ключа нет, то добавляем пустой объект.
-            currentObj[key] = {}
+        const hasKey = currentObj.hasOwnProperty(key);
+
+        if ( !hasKey ) { // если такого ключа нет, то добавляем пустой объект.
+            currentObj[key] = {};
         }
 
-        if (keys.length === 0 && needsCutting) { // если "особый" случай, то добавляем специальное поле
+        if ( keys.length === 0 && needsCutting ) { // если "особый" случай, то добавляем специальное поле
             currentObj[key] = {
-                "_": 1,
+                _: 1,
                 ...currentObj[key]
-            }
+            };
         }
 
-        return keys.length ? createObj(currentObj[key], keys, needsCutting) : null;
-    }
+        if ( keys.length ) {
+            return createObj(currentObj[key], keys, needsCutting);
+        }
+        
+        return;
+    };
 
     paths.forEach((path, index, paths) => {
         const keys = path.split(".");
 
         const isLastPath = index === paths.length - 1;
-       
-        // проверяем является ли текущий путь последним и содержит ли следующий путь текущий
-        if ( !isLastPath && paths[index + 1].includes(`${path}.`)) { // "OPERATION.tabs.OPERATION_UNIT".includes("OPERATION.tabs.OPERATION") вернет true, поэтому к path добавим точку
+        const nextPath = paths[index + 1];
+        const nextPathIncludesCurrent = nextPath ? nextPath.includes(`${path}.`) : null; // "OPERATION.tabs.OPERATION_UNIT".includes("OPERATION.tabs.OPERATION") вернет true, поэтому к path добавим точку
+
+        // проверяем является ли текущий путь последним и содержится ли текущий путь в следующем пути
+        if ( !isLastPath && nextPathIncludesCurrent ) {
             createObj(obj, keys, true); // помечаем, что случай особый (needsCutting = true)
         } else {
             createObj(obj, keys);
         }
-        
-    })
+
+    });
 
     return obj;
 }
