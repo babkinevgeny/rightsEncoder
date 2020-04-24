@@ -1,16 +1,6 @@
 # Rights Encoder
 
+DB folder includes *.json files which simulate our database. Each json file has 'view' and 'edit' arrays of strings. The main task is to compress each array to the nested JSON by removing dublicating parts and to flatten them back.
 
-
-To encode rights run:
-## node encode.js
-
-
-
-To decode rights run:
-## node decode.js
-
-
-
-To check for equality run:
-## node check_equality.js
+To test for equality run:
+## node test.js

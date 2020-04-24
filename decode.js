@@ -1,7 +1,3 @@
-const fs = require('fs');
-let jsonData = fs.readFileSync('./encoded_rights.json');
-let obj = JSON.parse(jsonData);
-
 function decodeRights(data) { // принимаем объект
     const result = [];
 
@@ -27,9 +23,4 @@ function decodeRights(data) { // принимаем объект
     return result;
 }
 
-obj.view ? obj.view = decodeRights(obj.view) : null;
-obj.edit ? obj.edit = decodeRights(obj.edit) : null;
-
-jsonData = JSON.stringify(obj);
-
-fs.writeFileSync('./decoded_rights.json', jsonData);
+module.exports = decodeRights;

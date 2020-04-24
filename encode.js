@@ -1,7 +1,3 @@
-const fs = require('fs');
-let jsonData = fs.readFileSync('./rights.json');
-let obj = JSON.parse(jsonData);
-
 /* 
     Случаи, когда текущий путь является подстрокой последующих путей
     (напр., "OPERATION_AUTO.columns","OPERATION_AUTO.columns.ACTUAL_COST_BUY"), назовем их "особенными", 
@@ -45,35 +41,27 @@ const encodeRights = (paths) => {
         return;
     };
 
-    paths.forEach((path, index, paths) => {
-        const keys = path.split(".");
+    if (paths) {
+        paths.sort();
 
-        const isLastPath = index === paths.length - 1;
-        const nextPath = paths[index + 1];
-        const nextPathIncludesCurrent = nextPath ? nextPath.includes(`${path}.`) : null; // "OPERATION.tabs.OPERATION_UNIT".includes("OPERATION.tabs.OPERATION") вернет true, поэтому к path добавим точку
-
-        // проверяем является ли текущий путь последним и содержится ли текущий путь в следующем пути
-        if ( !isLastPath && nextPathIncludesCurrent ) {
-            createObj(obj, keys, true); // помечаем, что случай особый (needsCutting = true)
-        } else {
-            createObj(obj, keys);
-        }
-
-    });
+        paths.forEach((path, index, paths) => {
+            const keys = path.split(".");
+    
+            const isLastPath = index === paths.length - 1;
+            const nextPath = paths[index + 1];
+            const nextPathIncludesCurrent = nextPath ? nextPath.includes(`${path}.`) : null; // "OPERATION.tabs.OPERATION_UNIT".includes("OPERATION.tabs.OPERATION") вернет true, поэтому к path добавим точку
+    
+            // проверяем является ли текущий путь последним и содержится ли текущий путь в следующем пути
+            if ( !isLastPath && nextPathIncludesCurrent ) {
+                createObj(obj, keys, true); // помечаем, что случай особый (needsCutting = true)
+            } else {
+                createObj(obj, keys);
+            }
+    
+        });
+    }
 
     return obj;
 }
 
-obj.view ? obj.view = encodeRights(obj.view) : null;
-obj.edit ? obj.edit = encodeRights(obj.edit) : null;
-
-jsonData = JSON.stringify(obj);
-
-fs.writeFileSync('./encoded_rights.json', jsonData);
-
-
-const oldSize = fs.statSync('./rights.json').size;
-const newSize = fs.statSync('./encoded_rights.json').size;
-const difference = oldSize - newSize;
-
-console.log(`Old size: ${oldSize / 1000} KB, New size: ${newSize / 1000} KB. We've saved ${difference / 1000} KB ${Math.round(difference/ (oldSize / 100))} %`);
+module.exports = encodeRights;
