@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 /* 
     Случаи, когда текущий путь является подстрокой последующих путей
     (напр., "OPERATION_AUTO.columns","OPERATION_AUTO.columns.ACTUAL_COST_BUY"), назовем их "особенными", 
@@ -15,11 +17,13 @@
     Порядок прав в массиве важен, тк функция encodeRights не рассматривает случаи, когда "особенные" поля находятся в конце массива.
 */
 
+let i = 0
+
 const encodeRights = (paths) => {
     let obj = {};
-
     const createObj = (currentObj, keys, needsCutting = false) => {
         const key = keys.shift();
+        fs.appendFileSync('./logs.txt', `${i++} ${key}\n`)
 
         const hasKey = currentObj.hasOwnProperty(key);
 
@@ -43,8 +47,8 @@ const encodeRights = (paths) => {
 
     if (paths) {
         paths.sort();
-
         paths.forEach((path, index, paths) => {
+            fs.appendFileSync('./logs.txt', `${path}\n`);
             const keys = path.split(".");
     
             const isLastPath = index === paths.length - 1;

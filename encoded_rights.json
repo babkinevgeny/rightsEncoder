@@ -1,0 +1,12 @@
+{
+    "view": [
+        ["OPERATION_AUTO", ["columns"]],
+        ["columns", ["MIN_DATE", "ACTUAL_COST_BUY", "ACTUAL_COST_SALE"]],
+        ["MAX_DATE", []],
+        ["MIN_DATE", []],
+        ["OPERATION_CUSTOMS", ["columns"]],
+        ["ACTUAL_COST_BUY", []],
+        ["ACTUAL_COST_SALE", []]
+    ],
+    "edit": []
+}
