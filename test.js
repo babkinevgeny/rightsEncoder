@@ -10,7 +10,7 @@ fs.readdirSync('./db').forEach(file => {
 
 const counter = 0;
 
-// for (let i = 0; i < files.length; i++) {
+for (let i = 0; i < files.length; i++) {
     let originalJSON= fs.readFileSync(`./db/${files[0]}`);
     originalJSON = JSON.parse(originalJSON);
 
@@ -19,31 +19,34 @@ const counter = 0;
     compressedJSON.view ? compressedJSON.view = encodeRights(compressedJSON.view) : null;
     compressedJSON.edit ? compressedJSON.edit = encodeRights(compressedJSON.edit) : null;
 
+   fs.writeFileSync('./encoded_rights.json', JSON.stringify(compressedJSON));
 
-    //let decompressedJSON = {}
 
-    //compressedJSON.view ? decompressedJSON.view = decodeRights(compressedJSON.view) : null;
-    //compressedJSON.edit ? decompressedJSON.edit = decodeRights(compressedJSON.edit) : null;
+    let decompressedJSON = {}
 
-    //const viewDifference = [];
-    //const editDifference = [];
+    compressedJSON.view ? decompressedJSON.view = decodeRights(compressedJSON.view) : null;
+    compressedJSON.edit ? decompressedJSON.edit = decodeRights(compressedJSON.edit) : null;
 
-    // if (originalJSON.view) {
-    //     originalJSON.view.forEach(key => {
-    //         return !decompressedJSON.view.includes(key) ? viewDifference.push(key) : null
-    //     });
-    // }
+    fs.writeFileSync('./decoded_rights.json', JSON.stringify(decompressedJSON));
+
+    const viewDifference = [];
+    const editDifference = [];
+
+    if (originalJSON.view) {
+        originalJSON.view.forEach(key => {
+            return !decompressedJSON.view.includes(key) ? viewDifference.push(key) : null
+        });
+    }
     
-    // if (originalJSON.edit) {
-    //     originalJSON.edit.forEach(key => {
-    //         return !decompressedJSON.edit.includes(key) ? editDifference.push(key) : null
-    //     });
-    // }
+    if (originalJSON.edit) {
+        originalJSON.edit.forEach(key => {
+            return !decompressedJSON.edit.includes(key) ? editDifference.push(key) : null
+        });
+    }
 
-    // if (viewDifference.length || editDifference.length) {
-    //     console.log(`\nTest #${i+1}. Rights before encoding IS NOT equal rigths after decoding.\nDifference in view part: ${viewDifference ? viewDifference : null}.\nDifference in edit part: ${editDifference ? editDifference : null}\n`)
-    // } else {
-    //     console.log(`\nTest #${i+1}. Rights after decoding contents all original rights!\n`)
-    // }
-// }
-
+    if (viewDifference.length || editDifference.length) {
+        console.log(`\nTest #${i + 1}. Rights before encoding IS NOT equal rigths after decoding\nDifference in view part: ${viewDifference ? viewDifference : null}\nDifference in edit part: ${editDifference ? editDifference : null}\n`)
+    } else {
+        console.log(`\nTest #${i + 1}. Rights after decoding contents all original rights!\n`)
+    }
+}

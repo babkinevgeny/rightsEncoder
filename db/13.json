@@ -1,7 +1,7 @@
 {"view":[ 
     "OPERATION_AUTO.columns.MIN_DATE",
     "OPERATION_AUTO.columns.MAX_DATE",
-    "OPERATION_CUSTOMS.columns",
     "OPERATION_CUSTOMS.columns.ACTUAL_COST_SALE",
+    "OPERATION_CUSTOMS.columns",
     "OPERATION_CUSTOMS.columns.ACTUAL_COST_BUY"
 ],"edit":[]}
